@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -123,7 +124,8 @@ private val LocalTypography = staticCompositionLocalOf {
 
 @Composable
 fun VSTheme(
-    content: @Composable () -> Unit
+    isPreview: Boolean = false,
+    content: @Composable () -> Unit,
 ) {
     val spacings = VibeSyncSpacings(
         spaceHalf = 2.dp,
@@ -205,6 +207,7 @@ fun VSTheme(
         LocalShapes provides shapes,
         LocalColors provides vibeSyncColors,
         LocalTypography provides typography,
+        LocalInspectionMode provides isPreview
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

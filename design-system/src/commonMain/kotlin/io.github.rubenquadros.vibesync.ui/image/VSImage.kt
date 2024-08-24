@@ -1,11 +1,16 @@
 package io.github.rubenquadros.vibesync.ui.image
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
+import io.github.rubenquadros.vibesync.ui.VSTheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -20,6 +25,12 @@ fun VSImage(
     contentScale: ContentScale = ContentScale.Fit,
     tint: Color? = null
 ) {
+
+    if (LocalInspectionMode.current) {
+        InspectionImageInternal(modifier, imageReference, accessibilityLabel, contentScale, tint)
+        return
+    }
+
     AsyncImage(
         model = getImageModel(imageReference),
         modifier = modifier,
@@ -48,11 +59,52 @@ private fun getFallback(imageReference: ImageReference): DrawableResource? {
     }
 }
 
+@Composable
+private fun InspectionImageInternal(
+    modifier: Modifier,
+    imageReference: ImageReference,
+    accessibilityLabel: String,
+    contentScale: ContentScale,
+    tint: Color?
+) {
+    VSTheme {
+        when (imageReference) {
+            is ImageReference.ResImage -> {
+                Image(
+                    modifier = modifier,
+                    painter = painterResource(imageReference.res),
+                    contentDescription = accessibilityLabel,
+                    contentScale = contentScale,
+                    colorFilter = tint?.let { ColorFilter.tint(it) }
+                )
+            }
+
+            is ImageReference.ServerImage -> {
+                if (imageReference.fallback != null) {
+                    Image(
+                        modifier = modifier,
+                        painter = painterResource(imageReference.fallback),
+                        contentDescription = accessibilityLabel,
+                        contentScale = contentScale,
+                        colorFilter = tint?.let { ColorFilter.tint(it) }
+                    )
+                } else {
+                    Box(
+                        modifier = modifier.background(tint ?: VSTheme.colors.primary)
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun VSImagePreview() {
-    VSImage(
-        imageReference = ImageReference.ResImage(Res.drawable.compose_multiplatform_logo),
-        accessibilityLabel = "Compose multiplatform logo"
-    )
+    VSTheme(isPreview = true) {
+        VSImage(
+            imageReference = ImageReference.ResImage(Res.drawable.compose_multiplatform_logo),
+            accessibilityLabel = "Compose multiplatform logo"
+        )
+    }
 }
