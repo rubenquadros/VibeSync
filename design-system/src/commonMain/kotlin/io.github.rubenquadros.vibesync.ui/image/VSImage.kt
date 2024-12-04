@@ -97,14 +97,3 @@ private fun InspectionImageInternal(
         }
     }
 }
-
-@Preview
-@Composable
-private fun VSImagePreview() {
-    VSTheme(isPreview = true) {
-        VSImage(
-            imageReference = ImageReference.ResImage(Res.drawable.compose_multiplatform_logo),
-            accessibilityLabel = "Compose multiplatform logo"
-        )
-    }
-}

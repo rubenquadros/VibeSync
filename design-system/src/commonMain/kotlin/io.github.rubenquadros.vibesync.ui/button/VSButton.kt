@@ -1,11 +1,15 @@
 package io.github.rubenquadros.vibesync.ui.button
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonElevation
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -16,9 +20,6 @@ import io.github.rubenquadros.vibesync.ui.VSTheme
 import io.github.rubenquadros.vibesync.ui.image.ImageReference
 import io.github.rubenquadros.vibesync.ui.image.VSImage
 import io.github.rubenquadros.vibesync.ui.text.VSText
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import vibesync.design_system.generated.resources.Res
-import vibesync.design_system.generated.resources.compose_multiplatform_logo
 
 interface VSButton {
     sealed interface Variant {
@@ -293,96 +294,3 @@ private fun getIconButtonTint(variant: VSButton.Variant, isEnabled: Boolean): Co
         else -> null
     }
 }
-
-@Preview
-@Composable
-private fun VSTextButtonEnabledPreview() {
-    VSTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(VSTheme.spacings.space4)
-        ) {
-            variantList.forEach { variant ->
-                VSButton(
-                    variant = variant,
-                    content = VSButton.Content.Text(
-                        text = "Click me!"
-                    ),
-                    onClick = { }
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun VSTextButtonDisabledPreview() {
-    VSTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(VSTheme.spacings.space4)
-        ) {
-            variantList.forEach { variant ->
-                VSButton(
-                    variant = variant,
-                    content = VSButton.Content.Text(
-                        text = "Click me!"
-                    ),
-                    isEnabled = false,
-                    onClick = { }
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun VSIconButtonEnabledPreview() {
-    VSTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(VSTheme.spacings.space4)
-        ) {
-            variantList.forEach { variant ->
-                VSButton(
-                    variant = variant,
-                    content = VSButton.Content.Icon(
-                        imageReference = ImageReference.ResImage(Res.drawable.compose_multiplatform_logo),
-                        accessibilityLabel = "Compose multiplatform logo"
-                    ),
-                    isEnabled = true,
-                    onClick = { }
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun VSIconButtonDisabledPreview() {
-    VSTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(VSTheme.spacings.space4)
-        ) {
-            variantList.forEach { variant ->
-                VSButton(
-                    variant = variant,
-                    content = VSButton.Content.Icon(
-                        imageReference = ImageReference.ResImage(Res.drawable.compose_multiplatform_logo),
-                        accessibilityLabel = "Compose multiplatform logo"
-                    ),
-                    isEnabled = false,
-                    onClick = { }
-                )
-            }
-        }
-    }
-}
-
-private val variantList: List<VSButton.Variant> @Composable get() = listOf(
-    VSButton.Variant.Primary,
-    VSButton.Variant.Secondary,
-    VSButton.Variant.Tertiary,
-    VSButton.Variant.TertiaryTinted(color = VSTheme.colors.onSurface),
-    VSButton.Variant.Elevated
-)
