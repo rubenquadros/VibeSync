@@ -30,3 +30,5 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":design-system")
+include(":features:home")
+include(":core")
